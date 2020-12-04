@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val countryRepository = CountryRepository()
         val countryViewModelFactory = CountryViewModelFactory(countryRepository)
-        vieModel = ViewModelProvider(this, countryViewModelFactory).get(CountryVieModel::class.java)
+        vieModel = ViewModelProvider(
+            this,
+            countryViewModelFactory
+        ).get(CountryVieModel::class.java)
+
     }
 }
