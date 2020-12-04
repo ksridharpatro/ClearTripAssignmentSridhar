@@ -12,16 +12,15 @@ object CountryParser {
             val jsonObject = JSONObject(countriesJson)
             val keySet = getKeysFromJsonObject(jsonObject)
             for (key in keySet) {
-                val country = Country()
-                country.countryCode = key
-                country.countryName = getStringFromJsonObject(jsonObject, key)
+                val countryName = getStringFromJsonObject(jsonObject, key)
                 val mandatoryFields: MutableList<InputField> = ArrayList()
+                // Since "Name" is mandatory for all country
                 mandatoryFields.add(InputField.NAME)
+                //Since "Passport" is mandatory for only India & US
                 if (key == "IN" || key == "US") {
                     mandatoryFields.add(InputField.PASSPORT_NUMBER)
                 }
-                country.mandatoryFields = mandatoryFields
-                countries.add(country)
+                countries.add(Country(key, countryName, mandatoryFields))
             }
         }
         return countries
