@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleartripassignmentsridhar.R
 import com.example.cleartripassignmentsridhar.adapters.CountrySpinnerAdapter
+import com.example.cleartripassignmentsridhar.models.Country
 import com.example.cleartripassignmentsridhar.repository.CountryRepository
 import com.example.cleartripassignmentsridhar.util.Status
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             this,
             countryViewModelFactory
         ).get(CountryVieModel::class.java)
+        setListeners()
         observeCountryResource()
     }
 
@@ -52,5 +54,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun setListeners() {
+        buttonValidate.setOnClickListener {
+            val country: Country? =
+                countrySpinnerAdapter.getItem(spinnerCountry.selectedItemPosition)
+            country?.let {
+                val validationMessage = vieModel.validateUserDetails(
+                    country,
+                    editTextName.text.toString(),
+                    editTextPassportNumber.text.toString()
+                )
+                Toast.makeText(this, validationMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
