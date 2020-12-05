@@ -26,9 +26,8 @@ class CountrySpinnerAdapter(countries: List<Country>, context: Context) :
         parent: ViewGroup
     ): View {
         // It is used to set our custom view.
-        val itemView: View =
-            convertView ?: LayoutInflater.from(context)
-                .inflate(R.layout.spinner_item, parent, false)
+        val itemView: View = convertView ?: LayoutInflater.from(context)
+            .inflate(R.layout.spinner_item, parent, false)
         val textViewName = itemView.findViewById<TextView>(R.id.countryName)
         val currentItem: Country? = getItem(position)
         if (currentItem != null) {
