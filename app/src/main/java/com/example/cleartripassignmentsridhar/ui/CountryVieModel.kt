@@ -8,7 +8,7 @@ import com.example.cleartripassignmentsridhar.repository.CountryRepository
 import com.example.cleartripassignmentsridhar.util.Resource
 
 class CountryVieModel(
-    private val countryRepository: CountryRepository
+    countryRepository: CountryRepository
 ) : ViewModel() {
 
     var countryResource: LiveData<Resource<List<Country>>> = countryRepository.getCountries()
