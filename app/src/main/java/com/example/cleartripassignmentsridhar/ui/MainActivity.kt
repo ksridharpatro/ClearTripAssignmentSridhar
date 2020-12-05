@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cleartripassignmentsridhar.R
+import com.example.cleartripassignmentsridhar.adapters.CountrySpinnerAdapter
 import com.example.cleartripassignmentsridhar.repository.CountryRepository
 import com.example.cleartripassignmentsridhar.util.Status
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var vieModel: CountryVieModel
+    private lateinit var countrySpinnerAdapter: CountrySpinnerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +25,21 @@ class MainActivity : AppCompatActivity() {
             this,
             countryViewModelFactory
         ).get(CountryVieModel::class.java)
+        observeCountryResource()
+    }
+
+    private fun observeCountryResource() {
         vieModel.countryResource.observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBar.visibility = View.GONE
+                    if (it.data == null) {
+                        groupUserDetails.visibility = View.GONE
+                        return@observe
+                    }
                     groupUserDetails.visibility = View.VISIBLE
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                    countrySpinnerAdapter = CountrySpinnerAdapter(it.data, this)
+                    spinnerCountry.adapter = countrySpinnerAdapter
                 }
                 Status.LOADING -> {
                     progressBar.visibility = View.VISIBLE
