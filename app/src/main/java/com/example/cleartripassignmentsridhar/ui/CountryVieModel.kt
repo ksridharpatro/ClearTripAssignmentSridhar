@@ -15,12 +15,11 @@ class CountryVieModel(
 
     fun validateUserDetails(country: Country, name: String, passport: String): String {
         if (InputField.NAME in country.mandatoryFields && name.isBlank()) {
-            return "Name is mandatory"
+            return "Error: Name is mandatory"
         }
         if (InputField.PASSPORT_NUMBER in country.mandatoryFields && passport.isBlank()) {
-            return "Passport number is mandatory"
+            return "Error: Passport number is mandatory"
         }
         return "Validation Successful"
     }
-
 }
